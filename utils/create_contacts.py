@@ -51,6 +51,7 @@ if __name__ == '__main__':
                 email=email,
                 created_date=created_date,
                 description=description,
+                category=category
             )
         )
 
