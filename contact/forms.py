@@ -37,6 +37,9 @@ class ContactForm(forms.ModelForm):
             'first_name',
             'last_name',
             'phone',
+            'email',
+            'description',
+            'category',
         )
         widgets = {            
             'last_name': forms.TextInput(
@@ -48,5 +51,37 @@ class ContactForm(forms.ModelForm):
 
     def clean(self) -> dict[str, Any]:
         cleaned_data= self.cleaned_data
-        print(cleaned_data)
+        first_name = cleaned_data.get('first_name')
+        last_name = cleaned_data.get('last_name')
+
+        if first_name == last_name:
+            error_msg = ValidationError(
+                    'first name canot be the same that last name',
+                    code='invalid',
+                )
+            self.add_error('first_name',error_msg)
+            self.add_error('last_name',error_msg)
+
+        # self.add_error(
+        #     'first_name',
+        #     ValidationError(
+        #         'Mensagem de erro 2',
+        #         code='invalid'
+        #     )
+        # )
         return super().clean()
+    
+    def clean_first_name(self):
+        data = self.cleaned_data["first_name"]
+
+        if data == 'ABC':
+            self.add_error(
+                'first_name',
+                ValidationError(
+                    'Do not input ABC',
+                code='invalid'
+                )                
+            )
+        
+        return data
+    
