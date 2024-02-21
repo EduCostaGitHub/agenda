@@ -14,9 +14,10 @@ def create(request):
 
         if form.is_valid():
             # print('form is valid')
-            contact = form.save(commit=False)
+            # contact = form.save(commit=False)
             # contact = form.save(commit=False)
             # contact.show = True
+            form.save()
             return redirect('contact:create')
 
         return render(
